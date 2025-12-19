@@ -19,6 +19,20 @@ export const taskService = {
         const io = getIO();
         io.emit("task:created", task);
 
+        // 🔔 Assignment notification for new task
+        if (data.assignedToId && data.assignedToId !== creatorId) {
+            console.log(`[TaskService] Notifying new assignment for task ${task._id} to user ${data.assignedToId}`);
+            await Notification.create({
+                userId: data.assignedToId,
+                message: "You have been assigned a new task"
+            });
+
+            io.to(data.assignedToId.toString()).emit("task:assigned", {
+                taskId: task._id,
+                message: "You have been assigned a new task"
+            });
+        }
+
         return task;
     },
 
@@ -51,8 +65,7 @@ export const taskService = {
     },
 
     async updateTask(taskId: string, data: any, userId?: string) {
-        // Fetch original task to check for changes if needed, 
-        // but for simplicity we assume if data.status exists it's a change or re-affirmation.
+        // Fetch original task to check for changes if needed
         const originalTask = await taskRepository.findById(taskId);
 
         const updatedTask = await taskRepository.updateById(taskId, data);
@@ -79,7 +92,14 @@ export const taskService = {
         }
 
         // 🔔 Assignment notification
-        if (data.assignedToId) {
+        // Only notify if assignedToId is purposefully changed to a NEW user
+        if (
+            data.assignedToId &&
+            originalTask &&
+            originalTask.assignedToId?.toString() !== data.assignedToId.toString()
+        ) {
+            console.log(`[TaskService] Re-assigning task ${updatedTask._id} from ${originalTask.assignedToId} to ${data.assignedToId}`);
+
             await Notification.create({
                 userId: data.assignedToId,
                 message: "You have been assigned a new task"

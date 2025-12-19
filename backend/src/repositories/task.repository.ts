@@ -1,12 +1,15 @@
-import { Task } from "../models/task.model";
+import { Task, ITask } from "../models/task.model";
 import { Types } from "mongoose";
 
 export const taskRepository = {
-    create: (data: any) => Task.create(data),
+    create: async (data: any): Promise<ITask> => {
+        const task = new Task(data);
+        return await task.save();
+    },
 
     findById: (id: string) => Task.findById(id),
 
-    updateById: (id: string, data: any) =>
+    updateById: (id: string, data: any): Promise<ITask | null> =>
         Task.findByIdAndUpdate(id, data, { new: true }),
 
     deleteById: (id: string) => Task.findByIdAndDelete(id),

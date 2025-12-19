@@ -21,7 +21,9 @@ export const Sidebar = () => {
         refetchInterval: 5000 // Poll every 5s for now, socket will invalidate too
     });
 
-    const unreadCount = notifications.filter((n: any) => !n.isRead).length;
+    const unreadCount = Array.isArray(notifications)
+        ? notifications.filter((n: any) => !n.isRead).length
+        : 0;
 
     // Fallback if user is null (though it shouldn't be rendered if null)
     if (!user) return null;

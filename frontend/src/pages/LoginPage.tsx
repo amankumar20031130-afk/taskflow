@@ -26,7 +26,9 @@ const LoginPage = () => {
             setUser(data);
             toast.success(isLogin ? "Welcome back!" : "Account created!");
         } catch (error: any) {
-            toast.error(error.response?.data?.message || "Authentication failed");
+            console.error("Authentication error:", error);
+            const message = error.response?.data?.message || error.message || "Authentication failed";
+            toast.error(message);
         }
     };
 

@@ -23,7 +23,13 @@ export const TaskModal = ({ isOpen, onClose, task }: Props) => {
 
     const form = useForm<TaskFormData>({
         resolver: zodResolver(taskSchema),
-        defaultValues: task || {
+        defaultValues: task ? {
+            ...task,
+            dueDate: task.dueDate ? new Date(task.dueDate).toISOString().slice(0, 16) : "",
+            assignedToId: task.assignedToId && typeof task.assignedToId === 'object'
+                ? task.assignedToId._id
+                : task.assignedToId || ""
+        } : {
             title: "",
             description: "",
             dueDate: "",

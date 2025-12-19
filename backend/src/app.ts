@@ -11,9 +11,16 @@ import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({
+    origin: process.env.CLIENT_URL || true,
+    credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
+
+app.get("/health", (req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);

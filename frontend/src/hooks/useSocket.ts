@@ -6,6 +6,7 @@ export const useSocket = (userId: string | undefined, refetch: () => void) => {
     useEffect(() => {
         if (!userId) return;
 
+        console.log("Socket: Joining room for user:", userId);
         socket.emit("join", userId);
 
         socket.on("task:updated", refetch);
