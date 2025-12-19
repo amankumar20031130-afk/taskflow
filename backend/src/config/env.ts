@@ -8,6 +8,7 @@ interface EnvConfig {
     JWT_SECRET: string;
     PORT: number;
     NODE_ENV: string;
+    CLIENT_URL: string;
 }
 
 const env: EnvConfig = {
@@ -15,6 +16,7 @@ const env: EnvConfig = {
     JWT_SECRET: process.env.JWT_SECRET || 'supersecret',
     PORT: parseInt(process.env.PORT || '5000', 10),
     NODE_ENV: process.env.NODE_ENV || 'development',
+    CLIENT_URL: process.env.CLIENT_URL || 'https://taskflow-seven-iota.vercel.app'
 };
 
 export default env;

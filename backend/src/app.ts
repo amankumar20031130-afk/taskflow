@@ -8,11 +8,12 @@ import notificationRoutes from "./routes/notification.routes";
 
 
 import { errorHandler } from "./middlewares/error.middleware";
+import env from "./config/env";
 
 const app = express();
 
 app.use(cors({
-    origin: process.env.CLIENT_URL || true,
+    origin: env.CLIENT_URL,
     credentials: true
 }));
 app.use(express.json());
