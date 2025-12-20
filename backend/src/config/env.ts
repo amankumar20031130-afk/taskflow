@@ -14,9 +14,9 @@ interface EnvConfig {
 const env: EnvConfig = {
     MONGO_URI: process.env.MONGO_URI || 'mongodb+srv://amankumar20031130_db_user:vmjMjyYtQeno721b@cluster0.fzx2zi8.mongodb.net/?appName=Cluster0',
     JWT_SECRET: process.env.JWT_SECRET || 'supersecret',
-    PORT: parseInt(process.env.PORT || '5000', 10),
+    PORT: parseInt(process.env.PORT || '4000', 10),
     NODE_ENV: process.env.NODE_ENV || 'development',
-    CLIENT_URL: process.env.CLIENT_URL || 'https://taskflow-seven-iota.vercel.app'
+    CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:5173'
 };
 
 export default env;
